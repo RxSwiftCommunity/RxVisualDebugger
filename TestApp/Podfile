@@ -1,0 +1,7 @@
+use_frameworks!
+
+target 'DebuggerTestApp' do
+  pod 'RxSwift'
+  pod 'RxCocoa'
+  pod 'Socket.IO-Client-Swift'
+end

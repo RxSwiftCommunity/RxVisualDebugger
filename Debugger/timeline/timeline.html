@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<!--
+	http://visjs.org/timeline_examples.html
+	-->
+<html>
+<head>
+  <title>Timeline | Manipulation example</title>
+
+  <style>
+    body, html {
+      font-family: arial, sans-serif;
+      font-size: 11pt;
+    }
+    .vis-item-content {font-size:11px;}
+
+    .vis-item.eventGroup0 {
+	    background: #efefef;
+	    color: #333;
+	    border-color: blue;
+    }
+    .vis-item.eventGroup1 {
+	    background: #efefef;
+	    color: #333;
+	    border-color: red;
+    }
+    .vis-item.eventGroup2 {
+	    background: #efefef;
+	    color: #333;
+	    border-color: green;
+    }
+    .vis-item.eventGroup3 {
+	    background: #efefef;
+	    color: #333;
+	    border-color: orange;
+    }
+  </style>
+
+<!--[if IE6]>
+  <script src="url{{vis.js}}"></script>
+  <link href="url{{vis.css}}" rel="stylesheet" type="text/css" />
+<![endif]-->
+
+<!-- [if web] -->
+  <script src="vis.js"></script>
+  <link href="vis.css" rel="stylesheet" type="text/css" />
+<!-- [endif] -->
+  
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  
+</head>
+<body>
+
+<div id="visualization"></div>
+
+<!--button value="add event" onclick="logEvent('Observable', 'test')">add event</button-->
+
+<script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+});
+
+  function addEvent(groupId, group, value) {
+	  var date = new Date()
+	  var eventId = items.length+1
+	  
+	  if (value == "()") {
+		  value = "Void"
+	  }
+	  
+	  items.add([
+		  {id: eventId, 
+			  content: '<a href="#" id="event-'+eventId+'" data-toggle="tooltip" title="'+value+'">'+value+'</a>',
+			  start: date.toISOString(), className: 'eventGroup'+groupId, 
+			  group: groupId
+			  }
+	  ])
+	  
+	  $('[data-toggle="tooltip"]').tooltip();
+	  console.log($('#event-'+eventId))
+	  $('#event-'+eventId).tooltip()
+  }
+	
+  setInterval(function() {
+	  if (autoMove == false) {
+		  return
+	  }
+	  
+	  var date = new Date()
+	  timeline.moveTo(date.toISOString())
+	  console.log(date.toISOString())
+   }, 5000);
+	
+  // create a dataset with items
+  // we specify the type of the fields `start` and `end` here to be strings
+  // containing an ISO date. The fields will be outputted as ISO dates
+  // automatically getting data from the DataSet via items.get().
+  var items = new vis.DataSet({
+    type: { start: 'ISODate', end: 'ISODate' }
+  });
+
+  // log changes to the console
+  items.on('*', function (event, properties) {
+    console.log(event, properties.items);
+  });
+
+  var groups = new vis.DataSet();
+  var groupIds = {}
+  
+  function logEvent(group, value) {
+	  if (!(group in groupIds)) {
+		  groupIds[group] = ''+groups.length
+		  groups.add({id: groupIds[group], content: [group]})
+		  timeline.setGroups(groups)
+	  }
+	  var id = groupIds[group]
+	  addEvent(id, group, value)
+  }
+  
+  var startDate = new Date()
+  var endDate = new Date()
+  endDate.setMinutes(endDate.getMinutes() + 5)
+  
+  var container = document.getElementById('visualization');
+  var options = {
+    start: startDate,
+    end: endDate,
+    height: '300px',
+    showCurrentTime: true,
+    groupOrder: 'content',
+    type: 'point',
+  };
+
+  var timeline = new vis.Timeline(container)
+  timeline.setOptions(options)
+  timeline.setGroups(groups)
+  timeline.setItems(items)
+
+  setTimeout(function(){ timeline.moveTo(startDate.toISOString()); }, 250)
+  
+  var autoMove = true
+  
+  function timelineFit() {
+	  autoMove = false
+	  timeline.fit()
+  }
+  
+  function timelineFocus() {
+	  autoMove = true
+	  var startDate = new Date()
+	  var endDate = new Date()
+	  startDate.setMinutes(endDate.getMinutes() - 5)
+
+	  timeline.setWindow(startDate, endDate)
+	  //timeline.moveTo(endDate.toISOString())
+  }
+  
+</script>
+</body>
+</html>

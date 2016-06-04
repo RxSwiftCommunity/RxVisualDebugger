@@ -41,13 +41,14 @@
 <![endif]-->
 
 <!-- [if web] -->
-  <script src="vis.js"></script>
-  <link href="vis.css" rel="stylesheet" type="text/css" />
+  <script src="files/vis.min.js"></script>
+  <link href="files/vis.css" rel="stylesheet" type="text/css" />
 <!-- [endif] -->
   
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="files/bootstrap.min.css">
+  <script src="files/jquery.min.js"></script>
+  <script src="files/bootstrap.min.js"></script>
+  <script src="files/rx.all.min.js"></script>
   
 </head>
 <body>
@@ -61,9 +62,27 @@ $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();   
 });
 
-  function addEvent(groupId, group, value) {
+let initialDate = new Date();
+new Date(initialDate.getTime() + 10000);
+
+Rx.Observable.interval(400)
+    .flatMap(x => {
+        return Rx.Observable.fromPromise($.getJSON("http://localhost:9911/log"))
+                .catch(Rx.Observable.just([]))
+    })
+    .subscribe(x => {
+       for(var i in x) {
+               let event = x[i];
+
+               let time = new Date(initialDate.getTime() + event["time"]);
+               logEvent(event["id"], time, event["type"], event["value"]);
+       }
+    })
+
+  function addEvent(id, time, type, value) {
 	  var date = new Date()
 	  var eventId = items.length+1
+      let groupId = id
 	  
 	  if (value == "()") {
 		  value = "Void"
@@ -71,7 +90,7 @@ $(document).ready(function(){
 	  
 	  items.add([
 		  {id: eventId, 
-			  content: '<a href="#" id="event-'+eventId+'" data-toggle="tooltip" title="'+value+'">'+value+'</a>',
+			  content: '<a href="#" id="event-'+eventId+'" data-toggle="tooltip" title="'+value+'">' + value + '</a>',
 			  start: date.toISOString(), className: 'eventGroup'+groupId, 
 			  group: groupId
 			  }
@@ -108,14 +127,15 @@ $(document).ready(function(){
   var groups = new vis.DataSet();
   var groupIds = {}
   
-  function logEvent(group, value) {
+  function logEvent(id, time, type, value) {
+      let group = id;
 	  if (!(group in groupIds)) {
 		  groupIds[group] = ''+groups.length
 		  groups.add({id: groupIds[group], content: [group]})
 		  timeline.setGroups(groups)
 	  }
 	  var id = groupIds[group]
-	  addEvent(id, group, value)
+	  addEvent(id, time, type, value)
   }
   
   var startDate = new Date()
@@ -153,7 +173,6 @@ $(document).ready(function(){
 	  startDate.setMinutes(endDate.getMinutes() - 5)
 
 	  timeline.setWindow(startDate, endDate)
-	  //timeline.moveTo(endDate.toISOString())
   }
   
 </script>

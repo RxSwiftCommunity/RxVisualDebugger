@@ -14,6 +14,7 @@
 		9C678DB71CFDE73F005A361C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C678DB61CFDE73F005A361C /* Assets.xcassets */; };
 		9C678DBA1CFDE73F005A361C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C678DB81CFDE73F005A361C /* LaunchScreen.storyboard */; };
 		9C678DC21CFDE771005A361C /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 9C678DC11CFDE771005A361C /* Podfile */; };
+		C8B078361D02DC5A0064F242 /* RxSwiftDebugger.podspec in Resources */ = {isa = PBXBuildFile; fileRef = C8B078351D02DC5A0064F242 /* RxSwiftDebugger.podspec */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		9C678DB91CFDE73F005A361C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9C678DBB1CFDE73F005A361C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9C678DC11CFDE771005A361C /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		C8B078351D02DC5A0064F242 /* RxSwiftDebugger.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RxSwiftDebugger.podspec; path = ../RxSwiftDebugger.podspec; sourceTree = "<group>"; };
 		EB7715CE8A702E90336E5C31 /* Pods-DebuggerTestApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DebuggerTestApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-DebuggerTestApp/Pods-DebuggerTestApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -54,6 +56,7 @@
 		9C678DA31CFDE73F005A361C = {
 			isa = PBXGroup;
 			children = (
+				C8B078351D02DC5A0064F242 /* RxSwiftDebugger.podspec */,
 				9C678DC11CFDE771005A361C /* Podfile */,
 				9C678DAE1CFDE73F005A361C /* DebuggerTestApp */,
 				9C678DAD1CFDE73F005A361C /* Products */,
@@ -156,6 +159,7 @@
 				9C678DB71CFDE73F005A361C /* Assets.xcassets in Resources */,
 				9C678DC21CFDE771005A361C /* Podfile in Resources */,
 				9C678DB51CFDE73F005A361C /* Main.storyboard in Resources */,
+				C8B078361D02DC5A0064F242 /* RxSwiftDebugger.podspec in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

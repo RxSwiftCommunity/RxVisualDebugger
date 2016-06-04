@@ -33,6 +33,32 @@
 	    color: #333;
 	    border-color: orange;
     }
+
+  #resolutions button {
+      border-radius: 2px;
+      border: 1px solid #ddd;
+      border-bottom: 3px solid #ccc;
+      background: #eee;
+      height:100%;
+      width:200px;
+      display: inline-block;
+  }
+
+   #resolutions button:hover {
+      background: #e7e7e7;
+  }
+
+   #resolutions  button:active {
+      border-bottom: 1px solid #ddd;
+      padding: 7px 10px 5px;
+  }
+      #resolutions {
+          position:fixed;
+          left:0;
+          bottom: 0;
+          right: 0;
+          height: 30px;
+      }
   </style>
 
 <!--[if IE6]>
@@ -54,10 +80,19 @@
 <body>
 
 <div id="visualization"></div>
-
+<div id="resolutions" >
+    <button onclick="setResolution('iPhone4')">iPhone4</button>
+    <button onclick="setResolution('iPhone5')">iPhone5</button>
+    <button onclick="setResolution('iPhone6')">iPhone6</button>
+    <button onclick="setResolution('iPhone6Plus')">iPhone6Plus</button>
+</div>
 <!--button value="add event" onclick="logEvent('Observable', 'test')">add event</button-->
 
 <script>
+var setResolution = function(resolution) {
+    $.getJSON("http://localhost:9911/setResolution?device=" + resolution);
+};
+
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();   
 });

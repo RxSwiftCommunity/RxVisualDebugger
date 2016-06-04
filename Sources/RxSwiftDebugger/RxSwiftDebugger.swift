@@ -9,6 +9,7 @@
 import Foundation
 import RxSwift
 import Swifter
+import UIKit
 
 extension ObservableType {
     public func debugRemote(id: String) -> Observable<Self.E> {
@@ -61,6 +62,26 @@ class Logger {
                 }))
             }
         }
+        server["/setResolution"] = { request in
+            dispatch_async(dispatch_get_main_queue()) {
+                let device = { (deviceString: String) -> TargetDeviceScreen in
+                    switch deviceString {
+                    case "iPhone4":
+                       return .Phone4
+                    case "iPhone5":
+                        return .Phone5
+                    case "iPhone6":
+                        return .Phone6
+                    case "iPhone6Plus":
+                        return .Phone6Plus
+                    default:
+                        return .Phone4
+                    }
+                }(request.queryParams.filter { $0.0 == "device" }.first?.1 ?? "")
+                UIApplication.setScreenSize(device)
+            }
+            return .OK(.Text(""))
+        }
         server["index.html"] = { request in
             return .OK(.Html((try? String(contentsOfFile: relativePath("index.html"), encoding: NSUTF8StringEncoding)) ?? ""))
         }
@@ -81,6 +102,39 @@ class Logger {
                 )
             self.values.append(newLoggingElement)
             print("log \(newLoggingElement)")
+        }
+    }
+}
+
+public enum TargetDeviceScreen {
+    case Phone4
+    case Phone5
+    case Phone6
+    case Phone6Plus
+}
+
+extension UIApplication {
+    static func setScreenSize(device: TargetDeviceScreen) {
+        let targetSize = device.resolution
+        for window in sharedApplication().windows {
+            var frame = window.frame
+            frame.size = targetSize
+            window.frame = frame
+        }
+    }
+}
+
+extension TargetDeviceScreen {
+    var resolution: CGSize {
+        switch self {
+        case .Phone4:
+            return CGSizeMake(320, 480)
+        case .Phone5:
+            return CGSizeMake(320, 568)
+        case .Phone6:
+            return CGSizeMake(375, 667)
+        case .Phone6Plus:
+            return CGSizeMake(414, 736)
         }
     }
 }

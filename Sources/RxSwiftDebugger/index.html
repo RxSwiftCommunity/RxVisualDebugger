@@ -7,10 +7,6 @@
   <title>Timeline | Manipulation example</title>
 
   <style>
-    body, html {
-      font-family: arial, sans-serif;
-      font-size: 11pt;
-    }
     .vis-item-content {font-size:11px;}
 
     .vis-item.eventGroup0 {
@@ -22,6 +18,7 @@
 	    background: #efefef;
 	    color: #333;
 	    border-color: red;
+	    
     }
     .vis-item.eventGroup2 {
 	    background: #efefef;
@@ -59,23 +56,22 @@
           right: 0;
           height: 30px;
       }
+  
+  #visualization {
+	  border: 1px solid red;
+      position: relative;
+	  overflow: hidden;
+  }
   </style>
 
-<!--[if IE6]>
-  <script src="url{{vis.js}}"></script>
-  <link href="url{{vis.css}}" rel="stylesheet" type="text/css" />
-<![endif]-->
-
-<!-- [if web] -->
   <script src="files/vis.min.js"></script>
   <link href="files/vis.css" rel="stylesheet" type="text/css" />
-<!-- [endif] -->
   
   <link rel="stylesheet" href="files/bootstrap.min.css">
   <script src="files/jquery.min.js"></script>
   <script src="files/bootstrap.min.js"></script>
   <script src="files/rx.all.min.js"></script>
-  
+
 </head>
 <body>
 
@@ -89,6 +85,9 @@
 <!--button value="add event" onclick="logEvent('Observable', 'test')">add event</button-->
 
 <script>
+	
+var isLocalFile = window.location.host+'' == ''
+	
 var setResolution = function(resolution) {
     $.getJSON("http://localhost:9911/setResolution?device=" + resolution);
 };
@@ -100,7 +99,8 @@ $(document).ready(function(){
 var initialDate = new Date();
 new Date(initialDate.getTime() + 10000);
 
-Rx.Observable.interval(400)
+if (!isLocalFile) {
+	Rx.Observable.interval(500)
     .flatMap(function (x) {
         return Rx.Observable.fromPromise($.getJSON("http://localhost:9911/log"))
                 .catch(Rx.Observable.just([]))
@@ -113,6 +113,18 @@ Rx.Observable.interval(400)
            logEvent(event["id"], time, event["type"], event["value"]);
        }
     })
+} else {
+	var startDate = Date()
+	
+	Rx.Observable.interval(1000)
+	.map(function(x){
+		return {id: "Button ", time: (new Date()).getSeconds() - startDate.getSeconds(), type: "Void", value: "()"}
+	})
+	.subscribe(function(event){
+		var time = new Date(initialDate.getTime() + event["time"]);
+        logEvent(event["id"], time, event["type"], event["value"]);
+	})
+}
 
   function addEvent(id, time, type, value) {
 	  var date = new Date()
@@ -132,7 +144,7 @@ Rx.Observable.interval(400)
 	  ])
 	  
 	  $('[data-toggle="tooltip"]').tooltip();
-	  console.log($('#event-'+eventId))
+	  //console.log($('#event-'+eventId))
 	  $('#event-'+eventId).tooltip()
   }
 	
@@ -181,10 +193,11 @@ Rx.Observable.interval(400)
   var options = {
     start: startDate,
     end: endDate,
-    height: '300px',
     showCurrentTime: true,
     groupOrder: 'content',
     type: 'point',
+    zoomMin: 1000 * 60,
+    zoomMax: 1000 * 60 * 60 * 24,
   };
 
   var timeline = new vis.Timeline(container)
@@ -209,6 +222,35 @@ Rx.Observable.interval(400)
 
 	  timeline.setWindow(startDate, endDate)
   }
+  
+  Rx.Observable.interval(1000)
+	.subscribe(function(event){
+		updateUI()
+	})
+
+  
+  function updateUI() {
+	var width = timeline.clientWidth
+	
+	$( ".vis-group" ).each(function() {
+	  	if ( parseInt(this.style.height) > 100 ) {
+		  	var last = items.get(items.length)
+		  	timeline.setSelection(last["id"])
+		  	zoom(-0.2)
+		}
+	});
+  }
+  
+    function zoom (percentage) {
+        var range = timeline.getWindow();
+        var interval = range.end - range.start;
+
+        timeline.setWindow({
+            start: range.start.valueOf() - interval * percentage,
+            end:   range.end.valueOf()   + interval * percentage
+        });
+    }
+
   
 </script>
 </body>

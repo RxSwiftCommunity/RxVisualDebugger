@@ -88,7 +88,7 @@ class Logger {
         server["/"] = { request in
             return .OK(.Html((try? String(contentsOfFile: relativePath("index.html"), encoding: NSUTF8StringEncoding)) ?? ""))
         }
-        server["/files/:path"] = HttpHandlers.shareFilesFromDirectory(rootDir())
+        server["/files/:path"] = HttpHandlers.shareFilesFromDirectory(rootDir().stringByAppendingString("/files"))
         try! server.start(9911)
     }
     

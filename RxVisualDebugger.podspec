@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.name             = "RxSwiftDebugger"
+  s.name             = "RxVisualDebugger"
   s.version          = "0.1"
   s.summary          = "Swift Visual Debugger"
   s.description      = <<-DESC

@@ -8,7 +8,7 @@
 
 import UIKit
 import RxSwift
-import RxSwiftDebugger
+import RxVisualDebugger
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let bag = DisposeBag()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        RxSwiftDebugger.initialize()
+        RxVisualDebugger.initialize()
         return true
     }
 }

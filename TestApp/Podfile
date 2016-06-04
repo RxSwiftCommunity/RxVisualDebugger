@@ -3,5 +3,5 @@ use_frameworks!
 target 'DebuggerTestApp' do
   pod 'RxSwift'
   pod 'RxCocoa'
-  pod 'RxSwiftDebugger', :path => ".."
+  pod 'RxVisualDebugger', :path => ".."
 end

@@ -2,7 +2,7 @@ PODS:
   - RxCocoa (2.5.0):
     - RxSwift (~> 2.5)
   - RxSwift (2.5.0)
-  - RxSwiftDebugger (0.1):
+  - RxVisualDebugger (0.1):
     - RxSwift (~> 2.2)
     - Swifter
   - Swifter (1.1.4)
@@ -10,18 +10,18 @@ PODS:
 DEPENDENCIES:
   - RxCocoa
   - RxSwift
-  - RxSwiftDebugger (from `..`)
+  - RxVisualDebugger (from `..`)
 
 EXTERNAL SOURCES:
-  RxSwiftDebugger:
+  RxVisualDebugger:
     :path: ".."
 
 SPEC CHECKSUMS:
   RxCocoa: e1b1562e57a554d0fb2aabf9d71b637f177257c7
   RxSwift: 402b41a50e922a0368fc14cb3bc9f4427920e8ae
-  RxSwiftDebugger: 11a889bed2d672a63175bd913023683685807fe2
+  RxVisualDebugger: 5d5b9e07057df2e63b3254624b8e8ebe7579bba2
   Swifter: a95fe83da8c1161855cb2fa86bbd730e90cabe3a
 
-PODFILE CHECKSUM: 2360d41c96f3b02d9c68f9f53295047735383b69
+PODFILE CHECKSUM: 9d326d4dacd1f84a1b425fb04e54a1fa955cbc7b
 
 COCOAPODS: 1.0.0

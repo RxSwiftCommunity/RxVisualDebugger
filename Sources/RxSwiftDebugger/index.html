@@ -97,27 +97,27 @@ $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();   
 });
 
-let initialDate = new Date();
+var initialDate = new Date();
 new Date(initialDate.getTime() + 10000);
 
 Rx.Observable.interval(400)
-    .flatMap(x => {
+    .flatMap(function (x) {
         return Rx.Observable.fromPromise($.getJSON("http://localhost:9911/log"))
                 .catch(Rx.Observable.just([]))
     })
-    .subscribe(x => {
+    .subscribe(function(x) {
        for(var i in x) {
-               let event = x[i];
+           var event = x[i];
 
-               let time = new Date(initialDate.getTime() + event["time"]);
-               logEvent(event["id"], time, event["type"], event["value"]);
+           var time = new Date(initialDate.getTime() + event["time"]);
+           logEvent(event["id"], time, event["type"], event["value"]);
        }
     })
 
   function addEvent(id, time, type, value) {
 	  var date = new Date()
 	  var eventId = items.length+1
-      let groupId = id
+      var groupId = id
 	  
 	  if (value == "()") {
 		  value = "Void"
@@ -163,7 +163,7 @@ Rx.Observable.interval(400)
   var groupIds = {}
   
   function logEvent(id, time, type, value) {
-      let group = id;
+      var group = id;
 	  if (!(group in groupIds)) {
 		  groupIds[group] = ''+groups.length
 		  groups.add({id: groupIds[group], content: [group]})

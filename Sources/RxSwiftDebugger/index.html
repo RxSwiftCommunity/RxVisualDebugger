@@ -33,6 +33,32 @@
 	    color: #333;
 	    border-color: orange;
     }
+
+  #resolutions button {
+      border-radius: 2px;
+      border: 1px solid #ddd;
+      border-bottom: 3px solid #ccc;
+      background: #eee;
+      height:100%;
+      width:200px;
+      display: inline-block;
+  }
+
+   #resolutions button:hover {
+      background: #e7e7e7;
+  }
+
+   #resolutions  button:active {
+      border-bottom: 1px solid #ddd;
+      padding: 7px 10px 5px;
+  }
+      #resolutions {
+          position:fixed;
+          left:0;
+          bottom: 0;
+          right: 0;
+          height: 30px;
+      }
   </style>
 
 <!--[if IE6]>
@@ -41,29 +67,57 @@
 <![endif]-->
 
 <!-- [if web] -->
-  <script src="vis.js"></script>
-  <link href="vis.css" rel="stylesheet" type="text/css" />
+  <script src="files/vis.min.js"></script>
+  <link href="files/vis.css" rel="stylesheet" type="text/css" />
 <!-- [endif] -->
   
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="files/bootstrap.min.css">
+  <script src="files/jquery.min.js"></script>
+  <script src="files/bootstrap.min.js"></script>
+  <script src="files/rx.all.min.js"></script>
   
 </head>
 <body>
 
 <div id="visualization"></div>
-
+<div id="resolutions" >
+    <button onclick="setResolution('iPhone4')">iPhone4</button>
+    <button onclick="setResolution('iPhone5')">iPhone5</button>
+    <button onclick="setResolution('iPhone6')">iPhone6</button>
+    <button onclick="setResolution('iPhone6Plus')">iPhone6Plus</button>
+</div>
 <!--button value="add event" onclick="logEvent('Observable', 'test')">add event</button-->
 
 <script>
+var setResolution = function(resolution) {
+    $.getJSON("http://localhost:9911/setResolution?device=" + resolution);
+};
+
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();   
 });
 
-  function addEvent(groupId, group, value) {
+var initialDate = new Date();
+new Date(initialDate.getTime() + 10000);
+
+Rx.Observable.interval(400)
+    .flatMap(function (x) {
+        return Rx.Observable.fromPromise($.getJSON("http://localhost:9911/log"))
+                .catch(Rx.Observable.just([]))
+    })
+    .subscribe(function(x) {
+       for(var i in x) {
+           var event = x[i];
+
+           var time = new Date(initialDate.getTime() + event["time"]);
+           logEvent(event["id"], time, event["type"], event["value"]);
+       }
+    })
+
+  function addEvent(id, time, type, value) {
 	  var date = new Date()
 	  var eventId = items.length+1
+      var groupId = id
 	  
 	  if (value == "()") {
 		  value = "Void"
@@ -71,7 +125,7 @@ $(document).ready(function(){
 	  
 	  items.add([
 		  {id: eventId, 
-			  content: '<a href="#" id="event-'+eventId+'" data-toggle="tooltip" title="'+value+'">'+value+'</a>',
+			  content: '<a href="#" id="event-'+eventId+'" data-toggle="tooltip" title="'+value+'">' + value + '</a>',
 			  start: date.toISOString(), className: 'eventGroup'+groupId, 
 			  group: groupId
 			  }
@@ -108,14 +162,15 @@ $(document).ready(function(){
   var groups = new vis.DataSet();
   var groupIds = {}
   
-  function logEvent(group, value) {
+  function logEvent(id, time, type, value) {
+      var group = id;
 	  if (!(group in groupIds)) {
 		  groupIds[group] = ''+groups.length
 		  groups.add({id: groupIds[group], content: [group]})
 		  timeline.setGroups(groups)
 	  }
 	  var id = groupIds[group]
-	  addEvent(id, group, value)
+	  addEvent(id, time, type, value)
   }
   
   var startDate = new Date()
@@ -153,7 +208,6 @@ $(document).ready(function(){
 	  startDate.setMinutes(endDate.getMinutes() - 5)
 
 	  timeline.setWindow(startDate, endDate)
-	  //timeline.moveTo(endDate.toISOString())
   }
   
 </script>

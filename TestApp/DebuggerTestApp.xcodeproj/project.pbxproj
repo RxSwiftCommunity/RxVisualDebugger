@@ -14,6 +14,7 @@
 		9C678DB71CFDE73F005A361C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C678DB61CFDE73F005A361C /* Assets.xcassets */; };
 		9C678DBA1CFDE73F005A361C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C678DB81CFDE73F005A361C /* LaunchScreen.storyboard */; };
 		9C678DC21CFDE771005A361C /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 9C678DC11CFDE771005A361C /* Podfile */; };
+		C8E57A211D0310BB00BF38C6 /* RxVisualDebugger.podspec in Resources */ = {isa = PBXBuildFile; fileRef = C8E57A201D0310BB00BF38C6 /* RxVisualDebugger.podspec */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		9C678DB91CFDE73F005A361C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9C678DBB1CFDE73F005A361C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9C678DC11CFDE771005A361C /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		C8E57A201D0310BB00BF38C6 /* RxVisualDebugger.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RxVisualDebugger.podspec; path = ../RxVisualDebugger.podspec; sourceTree = "<group>"; };
 		EB7715CE8A702E90336E5C31 /* Pods-DebuggerTestApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DebuggerTestApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-DebuggerTestApp/Pods-DebuggerTestApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -54,6 +56,7 @@
 		9C678DA31CFDE73F005A361C = {
 			isa = PBXGroup;
 			children = (
+				C8E57A201D0310BB00BF38C6 /* RxVisualDebugger.podspec */,
 				9C678DC11CFDE771005A361C /* Podfile */,
 				9C678DAE1CFDE73F005A361C /* DebuggerTestApp */,
 				9C678DAD1CFDE73F005A361C /* Products */,
@@ -98,12 +101,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9C678DBE1CFDE73F005A361C /* Build configuration list for PBXNativeTarget "DebuggerTestApp" */;
 			buildPhases = (
-				447E2F10315102E8014F424A /* 📦 Check Pods Manifest.lock */,
+				447E2F10315102E8014F424A /* [CP] Check Pods Manifest.lock */,
 				9C678DA81CFDE73F005A361C /* Sources */,
 				9C678DA91CFDE73F005A361C /* Frameworks */,
 				9C678DAA1CFDE73F005A361C /* Resources */,
-				4F8A5DC3CFBDA7A57E1686D3 /* 📦 Embed Pods Frameworks */,
-				1C96E164E358AF46FE37F98F /* 📦 Copy Pods Resources */,
+				4F8A5DC3CFBDA7A57E1686D3 /* [CP] Embed Pods Frameworks */,
+				1C96E164E358AF46FE37F98F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -154,6 +157,7 @@
 			files = (
 				9C678DBA1CFDE73F005A361C /* LaunchScreen.storyboard in Resources */,
 				9C678DB71CFDE73F005A361C /* Assets.xcassets in Resources */,
+				C8E57A211D0310BB00BF38C6 /* RxVisualDebugger.podspec in Resources */,
 				9C678DC21CFDE771005A361C /* Podfile in Resources */,
 				9C678DB51CFDE73F005A361C /* Main.storyboard in Resources */,
 			);
@@ -162,14 +166,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1C96E164E358AF46FE37F98F /* 📦 Copy Pods Resources */ = {
+		1C96E164E358AF46FE37F98F /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -177,14 +181,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DebuggerTestApp/Pods-DebuggerTestApp-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		447E2F10315102E8014F424A /* 📦 Check Pods Manifest.lock */ = {
+		447E2F10315102E8014F424A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -192,14 +196,14 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		4F8A5DC3CFBDA7A57E1686D3 /* 📦 Embed Pods Frameworks */ = {
+		4F8A5DC3CFBDA7A57E1686D3 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
